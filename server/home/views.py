@@ -18,7 +18,6 @@ def nearby_events(request,*args,**kwargs):
     params=json.loads(request.body)
     lat=params["latitude"]
     lon=params["longitude"]
-
     RADIUS_OF_RELEVANCE_KM=1.2
     logger.info("Got nearby_events request")
     all_events=Event.objects.all()
@@ -32,8 +31,11 @@ def nearby_events(request,*args,**kwargs):
     return HttpResponse(response_json)
 
 
+@csrf_exempt
 def new_event(request, lat, lon):
-    logger.info("Got new_events request")
+    logger.info("Got new_events request. lat=%s long=%s" % (lat,lon))
+    lat=float(lat)
+    lon=float(lon)
     event = Event(lat=lat, lon=lon)
     event.save()
     return HttpResponse("")
@@ -41,8 +43,8 @@ def new_event(request, lat, lon):
 def build_event_json(event):
     return {
         'timestamp': str(event.timestamp),
-        'lat': str(event.lat),
-        'lon': str(event.lon)
+        'lat': event.lat,
+        'lon': event.lon
     }
 
 

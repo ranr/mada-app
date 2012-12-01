@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     url(r'^nearby_events', 'home.views.nearby_events'),
 
     #new_event
-    url(r'^new_event/(\d+)/(\d+)$', 'home.views.new_event')
+    url(r'^new_event/([^/]+)/([^/]+)$', 'home.views.new_event')
 
     # url(r'^mifmif/', include('mifmif.foo.urls')),
 
