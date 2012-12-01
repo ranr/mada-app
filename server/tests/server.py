@@ -4,8 +4,8 @@ import time
 
 class Server:
     def __init__( self ):
-        self._process = subprocess.Popen( [ "/usr/bin/python", "/usr/local/bin/dev_appserver.py",
-                            "server", "--use_sqlite" ] )
+        self._process = subprocess.Popen( [ "/usr/bin/python", "manage.py",
+                            "testserver" ], close_fds = True, shell = False )
         atexit.register( self._destroy )
         time.sleep( 2 )
 

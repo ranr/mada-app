@@ -3,7 +3,13 @@ import json
 import server
 
 testedServer = server.Server()
-data = urllib.urlopen( "http://localhost:8080/nearby_events/myId/1/2" ).read()
+event= {
+        "name": "Cookie monster",
+        "phoneNumber": "666",
+        "rank": "trashcan manager",
+        "latitude": 32.43243,
+        "longitude": 35.432
+    }
+data = urllib.urlopen( "http://localhost:8000/nearby_events", json.dumps(event) ).read()
 result = json.loads( data )
-print result
-assert result == [ "category1" ]
+assert (result == {"events":[]})

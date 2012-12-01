@@ -10,13 +10,13 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASES = {
-	'default': {
-	    'ENGINE': 'google.appengine.ext.django.backends.rdbms',
-	    'INSTANCE': 'mifmif:instance1',
-	    'NAME': 'my_db',
-	}
-}
+# DATABASES = {
+# 	'default': {
+# 	    'ENGINE': 'google.appengine.ext.django.backends.rdbms',
+# 	    'INSTANCE': 'mifmif:instance1',
+# 	    'NAME': 'my_db',
+# 	}
+# }
 
 DATABASES = {
     'default': {
@@ -147,6 +147,10 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'console':{
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler'
         }
     },
     'loggers': {
@@ -155,5 +159,10 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        '': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'INFO',
+        }
     }
 }
