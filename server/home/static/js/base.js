@@ -4,6 +4,12 @@ function newEventCreated(json)
     map.addEvent( event_id, parseFloat( $("#inputLatitude").val() ), parseFloat( $("#inputLongitude").val() ) );
 }
 
+function eventRemoved(id) 
+{
+    map.removeEvent( id );
+    $("#currentEvent").hide();
+}
+
 function newEvent()
 {
     $.ajax( {   url: "/new_event/" + $("#inputLatitude").val() + "/" + $("#inputLongitude").val(),
@@ -15,9 +21,11 @@ function removeEvent()
 {
     var currentEvent = $("#currentEvent")
     var id = $("#currentEvent").attr("event_id");
-    map.removeEvent( id );
-    $("#currentEvent").hide();
+    $.ajax( {   url: "/remove_event/" + id,
+                success: eventRemoved( id ),
+                error: function() { alert('error!'); } } );
 }
+
 
 $(document).ready( function() {
     $("#removeEventButton").click( removeEvent ); 
