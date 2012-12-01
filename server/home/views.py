@@ -45,6 +45,13 @@ def all_events(request):
     return HttpResponse(response_json)
 
 @csrf_exempt
+def remove_event(request, id):
+    logger.info("Got delete request id=%s" % id)
+    events=Event.objects.filter(id=id)
+    events.delete()
+    return HttpResponse(json.dumps({}))
+
+@csrf_exempt
 def get_rescuer(request, phone_number):
     logger.info("get_rescuer called! phone number: " + phone_number)
     rescuers=get_rescuers_by_phone(phone_number)
