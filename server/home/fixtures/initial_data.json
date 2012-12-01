@@ -17,11 +17,11 @@
     {
         "model": "home.Rescuer",
         "pk": 1,
-        "fields": { "latitude": 32.2, "longitude": 34.2, "last_update_time": "2012-12-01", "rank":"the best", "phone_number" : "052-6666666" }
+        "fields": { "latitude": 32.22, "longitude": 34.22, "last_update_time": "2012-12-01", "rank":"the best", "phone_number" : "052-6666666" }
     },
     {
         "model": "home.Rescuer",
         "pk": 2,
-        "fields": { "latitude": 31.2, "longitude": 37.2, "last_update_time": "2012-12-05", "rank":"jack the ripper", "phone_number" : "052-6666667" }
+        "fields": { "latitude": 32.085814, "longitude": 34.774667, "last_update_time": "2012-12-05", "rank":"jack the ripper", "phone_number" : "052-6666667" }
     }
 ]   
