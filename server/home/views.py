@@ -13,7 +13,7 @@ def nearby_events(request, id, lat, long):
     logging.info("Got nearby_events request")
     allEvents=Event.objects.all()
     response={}
-    response["allEvents"]=allEvents
-    logging.info("response: " + str(response))
+    # response["allEvents"]=allEvents
+    # logging.info("response: " + str(response))
     response_json=json.dumps(response)
     return HttpResponse(response_json)
