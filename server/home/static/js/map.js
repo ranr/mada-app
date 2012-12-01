@@ -28,17 +28,13 @@ function Map()
 
     this.addEvent = function( id, latitude, longitude )
     {
-        this._events.push( new Event( this, id, latitude, longitude ) );
+        this._events[id] = new Event( this, id, latitude, longitude );
     }
 
-    this.removeEvent = function( latitude, longitude )
+    this.removeEvent = function( id )
     {
-        for ( i in this._events )
-            if ( this._events[ i ].latitude == latitude && this._events[ i ].longitude == longitude ) {
-                this._events[ i ].destroy();
-                this._events.splice( i, 1 );
-                return;
-            }
+        this._events[ id ].destroy();
+        // todo: remove event
     }
 
     this.addMarker = function( title, latitude, longitude )
@@ -66,7 +62,7 @@ function Map()
     {
         var events = JSON.parse( json )[ "events" ];
         for ( i in events )
-            this.addEvent( id, events[ i ][ 'latitude' ], events[ i ][ 'longitude' ] );
+            this.addEvent( events[ i ]['id'], events[ i ][ 'latitude' ], events[ i ][ 'longitude' ] );
     }
 
     this._updateAllEvents = function()

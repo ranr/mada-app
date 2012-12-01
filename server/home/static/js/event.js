@@ -9,6 +9,7 @@ function Event( map, id, latitude, longitude )
     {
         $("#currentEvent").find(".latitude").text( this._latitude );
         $("#currentEvent").find(".longitude").text( this._longitude );
+        $("#currentEvent").attr("event_id", this._id);
         $("#currentEvent").show();
     }
 

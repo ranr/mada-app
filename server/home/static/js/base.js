@@ -14,9 +14,8 @@ function newEvent()
 function removeEvent()
 {
     var currentEvent = $("#currentEvent")
-    var latitude = $("#currentEvent.latitude").val();
-    var longitude = $("#currentEvent.longitude").val();
-    map.removeEvent( latitude, longitude );
+    var id = $("#currentEvent").attr("event_id");
+    map.removeEvent( id );
     $("#currentEvent").hide();
 }
 
