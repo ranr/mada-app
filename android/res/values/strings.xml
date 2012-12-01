@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MifMif</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+
+    <string-array name="rank_array">
+        <item>קורס עזרה ראשונה</item>
+        <item>מגיש עזרה ראשונה</item>
+        <item>חובש</item>
+        <item>חובש בכיר</item>
+        <item>פאראמדיק</item>
+    </string-array>
+    
+</resources>
