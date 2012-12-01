@@ -6,7 +6,7 @@ from models import *
 import logging
 import os
 import distance_earth
-
+RADIUS_OF_RELEVANCE_KM=1.2
 logger = logging.getLogger(__name__)
 
 def index(request):
@@ -18,11 +18,12 @@ def nearby_events(request,*args,**kwargs):
     params=json.loads(request.body)
     lat=params["latitude"]
     lon=params["longitude"]
-    RADIUS_OF_RELEVANCE_KM=1.2
+
     logger.info("Got nearby_events request")
     all_events=Event.objects.all()
     events=find_nearby_events(all_events, lat, lon, RADIUS_OF_RELEVANCE_KM)
     response_json=generate_events_response(events)
+    update_rescuer(params)
     return HttpResponse(response_json)
 
 @csrf_exempt
@@ -40,24 +41,63 @@ def all_events(request):
     all_events=Event.objects.all()
     response_json=generate_events_response(all_events)
     return HttpResponse(response_json)
+
+@csrf_exempt
+def get_rescuer(request, phone_number):
+    logger.info("get_rescuer called! phone number: " + phone_number)
+    rescuers=get_rescuers_by_phone(phone_number)
+    logger.info("rescuers: " + str(rescuers))
+    if (rescuers != []):
+        d=build_rescuer_dict(rescuers[0])
+        return HttpResponse(json.dumps(d))
+    else: 
+        return HttpResponse(json.dumps({}))
+
+def update_rescuer(params):
+    rescuers=get_rescuers_by_phone(params["phone_number"])
     
+    logger.info("%s %s" % (type(rescuers), rescuers))
+    if (rescuers == []):
+        rescuer = Rescuer(latitude=params["latitude"], longitude=params["longitude"],
+            rank=params["rank"], phone_number=params["phone_number"])
+        logger.info("New rescuer!")
+    else:
+        rescuer = rescuers[0]  # This is a unique field. There will always be just one
+        logger.info("I know this rescuer!")
+    rescuer.save()
+    logger.info("Saved rescuer")
+       
+
+def get_rescuers_by_phone(phone_number):
+    # TODO: make this filter query work
+    #rescuers=Rescuer.objects.filter(phone_number==phone_number)
+    rescuers=[r for r in Rescuer.objects.all() if r.phone_number == phone_number]
+    return rescuers
 
 def generate_events_response(events):
     response={}    
-    events_json=[build_event_json(event) for event in events]
-    response["events"]=events_json
+    events_dict=[build_event_dict(event) for event in events]
+    response["events"]=events_dict
     # response["allEvents"]=allEvents
     # logger.info("response: " + str(response))
     response_json=json.dumps(response)
     return response_json
 
-def build_event_json(event):
+def build_event_dict(event):
     return {
         'timestamp': str(event.timestamp),
         'latitude': event.lat,
         'longitude': event.lon
     }
 
-
+    
+def build_rescuer_dict(rescuer):
+    return {
+        'latitdue': rescuer.latitude,
+        'longitude': rescuer.longitude,
+        'last_update_time': str(rescuer.last_update_time),
+        'rank': rescuer.rank,
+        'phone_number': rescuer.phone_number
+    }
 def find_nearby_events(events, lat, lon, radius):
     return [event for event in events if distance_earth.distance_on_earth(event.lat, event.lon, lat, lon) < radius]
