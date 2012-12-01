@@ -4,6 +4,7 @@ import json
 from models import *
 import logging
 import os
+import distance_earth
 
 def index(request):
     return shortcuts.render_to_response( 'index.html' )
@@ -37,33 +38,4 @@ def build_event_json(event):
 
 
 def find_nearby_events(events, lat, lon, radius):
-    return [event for event in events if distance_on_earth(event.lat, event.lon, lat, lon) < radius]
-
-def distance_on_earth(lat1, long1, lat2, long2):
-    import math
-    RADIUS_OF_EARTH_KM=6378
-    # Convert latitude and longitude to 
-    # spherical coordinates in radians.
-    degrees_to_radians = math.pi/180.0
-        
-    # phi = 90 - latitude
-    phi1 = (90.0 - lat1)*degrees_to_radians
-    phi2 = (90.0 - lat2)*degrees_to_radians
-        
-    # theta = longitude
-    theta1 = long1*degrees_to_radians
-    theta2 = long2*degrees_to_radians
-        
-    # Compute spherical distance from spherical coordinates.
-        
-    # For two locations in spherical coordinates 
-    # (1, theta, phi) and (1, theta, phi)
-    # cosine( arc length ) = 
-    #    sin phi sin phi' cos(theta-theta') + cos phi cos phi'
-    # distance = rho * arc length
-    
-    cos = (math.sin(phi1)*math.sin(phi2)*math.cos(theta1 - theta2) + 
-           math.cos(phi1)*math.cos(phi2))
-    arc = math.acos( cos )
-
-    return arc * RADIUS_OF_EARTH_KM
+    return [event for event in events if distance_earth.distance_on_earth(event.lat, event.lon, lat, lon) < radius]
