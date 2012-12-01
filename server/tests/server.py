@@ -27,3 +27,9 @@ def get_rescuer_by_phone(phone_number):
     data = urllib.urlopen( "http://localhost:8000/get_rescuer/%s" % phone_number).read()
     result = json.loads( data )
     return result
+
+def all_rescuers():
+    data = urllib.urlopen( "http://localhost:8000/all_rescuers").read()
+    result = json.loads( data )
+    return result
+    
