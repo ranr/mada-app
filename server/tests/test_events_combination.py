@@ -30,7 +30,6 @@ assert( sorted(['phone_number', 'longitude', 'rank'])==sorted(common_keys) )
 for key in common_keys:
     assert(returned_rescuer[key]==rescuer[key]) 
 
-
 # Now expect to get the event back
 data = urllib.urlopen( "http://localhost:8000/nearby_events", json.dumps(rescuer) ).read()
 result = json.loads( data )
