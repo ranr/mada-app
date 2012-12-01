@@ -43,14 +43,6 @@ function Map()
             }
     }
 
-    this.addPerson = function()
-    {
-    }
-
-    this.clearPersons = function()
-    {
-    }
-
     this.addMarker = function( title, latitude, longitude )
     {
         var marker = new google.maps.Marker({
@@ -58,6 +50,16 @@ function Map()
             map: this._map,
             title:title,
             animation: google.maps.Animation.DROP
+        });
+        return marker;
+    }
+
+    this.addRescuer = function( title, latitude, longitude )
+    {
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng( latitude, longitude ),
+            map: this._map,
+            title:title,
         });
         return marker;
     }
