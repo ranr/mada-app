@@ -6,6 +6,8 @@ from models import *
 import logging
 import os
 import distance_earth
+from django.core import serializers
+
 RADIUS_OF_RELEVANCE_KM=1.2
 logger = logging.getLogger(__name__)
 
@@ -92,12 +94,16 @@ def build_event_dict(event):
 
     
 def build_rescuer_dict(rescuer):
-    return {
-        'latitdue': rescuer.latitude,
-        'longitude': rescuer.longitude,
-        'last_update_time': str(rescuer.last_update_time),
-        'rank': rescuer.rank,
-        'phone_number': rescuer.phone_number
-    }
+    rescuer.information = "HEART ATTACK"
+    rescuer.address     = "Diezengoff 99"
+    data = serializers.serialize('json', [rescuer])
+    return json.loads(data)[0]['fields']
+#    return {
+#        'latitdue': rescuer.latitude,
+#        'longitude': rescuer.longitude,
+#        'last_update_time': str(rescuer.last_update_time),
+#        'rank': rescuer.rank,
+#        'phone_number': rescuer.phone_number
+#    }
 def find_nearby_events(events, lat, lon, radius):
     return [event for event in events if distance_earth.distance_on_earth(event.lat, event.lon, lat, lon) < radius]

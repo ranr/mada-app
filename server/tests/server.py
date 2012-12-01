@@ -14,8 +14,6 @@ class Server:
     def _destroy( self, * args, ** kwargs ):
         self._process.terminate()
 
-
-
 def create_event(lat, lon):
     data = urllib.urlopen( "http://localhost:8000/new_event/%f/%f" % (lat, lon)).read()
     assert (data == "")

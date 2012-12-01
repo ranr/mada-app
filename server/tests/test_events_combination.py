@@ -25,8 +25,9 @@ returned_rescuer=server.get_rescuer_by_phone(rescuer["phone_number"])
 assert(returned_rescuer)
 assert(returned_rescuer["phone_number"]==rescuer["phone_number"])
 common_keys=[key for key in rescuer.keys() if key in returned_rescuer.keys()]
-print common_keys
-assert( sorted(['phone_number', 'longitude', 'rank'])==sorted(common_keys) )
+expected_keys=sorted(['phone_number', 'latitude', 'longitude', 'rank'])
+
+assert(expected_keys==sorted(common_keys) )
 for key in common_keys:
     assert(returned_rescuer[key]==rescuer[key]) 
 
