@@ -1,11 +1,11 @@
 function newEventCreated()
 {
-    map.addEvent( parseFloat( $("#inputLatidute").val() ), parseFloat( $("#inputLongitude").val() ) );
+    map.addEvent( parseFloat( $("#inputLatitude").val() ), parseFloat( $("#inputLongitude").val() ) );
 }
 
 function newEvent()
 {
-    $.ajax( {   url: "/new_event/" + $("#inputLatidute").val() + "/" + $("#inputLongitude").val(),
+    $.ajax( {   url: "/new_event/" + $("#inputLatitude").val() + "/" + $("#inputLongitude").val(),
                 success: newEventCreated,
                 error: function() {} } );
 }

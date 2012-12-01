@@ -22,8 +22,8 @@ function Map()
         var place = this._autoComplete.getPlace();
         if ( ! place.geometry )
             return;
-        $("#inputLatidute").text( place.geometry.location.lat() );
-        $("#inputLongitude").text( place.geometry.location.lng() );
+        $("#inputLatitude").val( place.geometry.location.lat() );
+        $("#inputLongitude").val( place.geometry.location.lng() );
     }
 
     this.addEvent = function( latitude, longitude )
