@@ -43,8 +43,8 @@ def new_event(request, lat, lon):
 def build_event_json(event):
     return {
         'timestamp': str(event.timestamp),
-        'lat': event.lat,
-        'lon': event.lon
+        'latitude': event.lat,
+        'longitude': event.lon
     }
 
 

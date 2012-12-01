@@ -25,8 +25,8 @@ data = urllib.urlopen( "http://localhost:8000/nearby_events", json.dumps(rescuer
 result = json.loads( data )
 print result
 assert (len(result["events"]) == 1)
-assert (result["events"][0]["lat"] == rescuer["latitude"])
-assert (result["events"][0]["lon"] == rescuer["longitude"])
+assert (result["events"][0]["latitude"] == rescuer["latitude"])
+assert (result["events"][0]["longitude"] == rescuer["longitude"])
 
 # Let's have a different rescuer in a different place
 rescuer2= {
@@ -56,4 +56,6 @@ assert (data == "")
 # Expect to get the new event
 data = urllib.urlopen( "http://localhost:8000/nearby_events", json.dumps(rescuer2) ).read()
 result = json.loads( data )
-#{'events': [{'lat': 36.44243, 'timestamp': '2012-12-01 14:03:00.571284+00:00', 'lon': 35.432}]}
+assert (len(result["events"]) == 1)
+assert (result["events"][0]["latitude"] == 36.44243)
+assert (result["events"][0]["longitude"] == 35.432)
