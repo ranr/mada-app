@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     url(r'^$', 'home.views.index'),
 
     #categories
-    url(r'^categories$', 'home.views.categories')
+    url(r'^nearby_events/([^/]+)/(\d+)/(\d+)$', 'home.views.nearby_events')
     # url(r'^mifmif/', include('mifmif.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

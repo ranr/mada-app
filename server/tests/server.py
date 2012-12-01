@@ -4,7 +4,7 @@ import time
 
 class Server:
     def __init__( self ):
-        self._process = subprocess.Popen( [ "/usr/bin/python", "/home/omer/work/google_appengine/dev_appserver.py",
+        self._process = subprocess.Popen( [ "/usr/bin/python", "/usr/local/bin/dev_appserver.py",
                             "server", "--use_sqlite" ] )
         atexit.register( self._destroy )
         time.sleep( 2 )
