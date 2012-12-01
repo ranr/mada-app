@@ -11,6 +11,19 @@ function Map()
               mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         this._map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+        this._input = document.getElementById('searchTextField');
+        this._autoComplete = new google.maps.places.Autocomplete(this._input);
+        this._autoComplete.bindTo('bounds', this._map);
+        google.maps.event.addListener(this._autoComplete, 'place_changed', $.proxy( this._placeChanged, this ) );
+    }
+
+    this._placeChanged = function()
+    {
+        var place = this._autoComplete.getPlace();
+        if ( ! place.geometry )
+            return;
+        $("#inputLatidute").text( place.geometry.location.lat() );
+        $("#inputLongitude").text( place.geometry.location.lng() );
     }
 
     this.addEvent = function( latitude, longitude )

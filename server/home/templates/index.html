@@ -16,7 +16,7 @@
         #currentEvent { display: none }
     </style>
     <script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa8eBlWw5aaOHDIoXSfk-zNjdsMNYlJAc&sensor=false">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa8eBlWw5aaOHDIoXSfk-zNjdsMNYlJAc&sensor=false&libraries=places">
     </script>
   </head>
   <body>
@@ -32,6 +32,7 @@
         <h3>Create a new event</h3>
         <div class="form-horizontal">
             <div class="controls">
+              <input type="text" id="searchTextField" placeholder="location">
               <input type="text" id="inputLatidute" placeholder="latitude">
               <input type="text" id="inputLongitude" placeholder="longitude">
             </div>
