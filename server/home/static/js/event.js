@@ -1,8 +1,9 @@
-function Event( map, latitude, longitude )
+function Event( map, id, latitude, longitude )
 {
     this._map = map;
     this._latitude = latitude;
     this._longitude = longitude;
+    this._id = id;
 
     this._onClick = function()
     {
