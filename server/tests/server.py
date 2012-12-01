@@ -1,6 +1,8 @@
 import subprocess
 import atexit
 import time
+import urllib
+import json
 
 class Server:
     def __init__( self ):
@@ -11,3 +13,15 @@ class Server:
 
     def _destroy( self, * args, ** kwargs ):
         self._process.terminate()
+
+
+
+def create_event(lat, lon):
+    data = urllib.urlopen( "http://localhost:8000/new_event/%f/%f" % (lat, lon)).read()
+    assert (data == "")
+
+def all_events():
+    data = urllib.urlopen( "http://localhost:8000/all_events").read()
+    result = json.loads( data )
+    return result
+
