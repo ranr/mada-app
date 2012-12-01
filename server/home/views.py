@@ -33,7 +33,7 @@ def new_event(request, lat, lon):
     logger.info("Got new_events request. lat=%s long=%s" % (lat,lon))
     lat=float(lat)
     lon=float(lon)
-    event = Event(lat=lat, lon=lon)
+    event = Event(latitude=lat, longitude=lon)
     event.save()
     return HttpResponse("")
 
@@ -86,24 +86,15 @@ def generate_events_response(events):
     return response_json
 
 def build_event_dict(event):
-    return {
-        'timestamp': str(event.timestamp),
-        'latitude': event.lat,
-        'longitude': event.lon
-    }
+    event.information = "HEART ATTACK"
+    event.address     = "Diezengoff 99"
+    data = serializers.serialize('json', [event])
+    return json.loads(data)[0]['fields']
 
     
 def build_rescuer_dict(rescuer):
-    rescuer.information = "HEART ATTACK"
-    rescuer.address     = "Diezengoff 99"
     data = serializers.serialize('json', [rescuer])
     return json.loads(data)[0]['fields']
-#    return {
-#        'latitdue': rescuer.latitude,
-#        'longitude': rescuer.longitude,
-#        'last_update_time': str(rescuer.last_update_time),
-#        'rank': rescuer.rank,
-#        'phone_number': rescuer.phone_number
-#    }
+
 def find_nearby_events(events, lat, lon, radius):
-    return [event for event in events if distance_earth.distance_on_earth(event.lat, event.lon, lat, lon) < radius]
+    return [event for event in events if distance_earth.distance_on_earth(event.latitude, event.longitude, lat, lon) < radius]
