@@ -1,6 +1,8 @@
 package com.mifmif.app;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -27,6 +29,8 @@ public class NotifyUserOfEvent {
 		public Double latitude; 
 		public Double longitude; 
 		public String timestamp;
+		public Date firstSeen;
+		public int notificationID;
 
 		public boolean isEqual( Event other ) {
 			if (address == null) {
@@ -72,6 +76,7 @@ public class NotifyUserOfEvent {
 		event.latitude = latitude;
 		event.longitude = longitude;
 		event.timestamp = timestamp;
+		event.firstSeen = new Date();
 		
 		for ( int i = 0 ; i < eventCache.size() ; ++ i )
 			if ( event.isEqual( eventCache.get( i ) ) )
@@ -85,16 +90,35 @@ public class NotifyUserOfEvent {
 	}
 
 	private void cleanupStale() {
-		while ( eventCache.size() > 40 )
+		while ( eventCache.size() > 40 ) {
+			cancelNotification( eventCache.get( 0 ) );
 			eventCache.remove( 0 );
+		}
+			
+		Calendar expiration = Calendar.getInstance();
+		expiration.add( Calendar.MINUTE, -15 );
+		Date expirationDate = expiration.getTime();
+		while ( eventCache.size() > 0 && eventCache.get( 0 ).firstSeen.before( expirationDate ) ) {
+			cancelNotification( eventCache.get( 0 ) );
+			eventCache.remove( 0 );
+		}
+	}
+
+	private void cancelNotification( Event event )
+	{
+		NotificationManager mNotificationManager =
+			    (NotificationManager) _context.getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager.cancel( event.notificationID );
 	}
 	
 	private void notifyUser( Event event )
 	{
 		final Uri sound = Uri.parse("android.resource://com.mifmif.app/raw/siren");
+		long pattern[] = { 0, 3000, 2000, 3000, 2000, 3000 };
 		NotificationCompat.Builder mBuilder =
 		        new NotificationCompat.Builder(_context)
 				.setSound(sound)
+				.setVibrate(pattern)
 		        .setSmallIcon(R.drawable.redstar)
 		        .setContentTitle(event.information)
 		        .setContentText(event.address);
@@ -110,6 +134,7 @@ public class NotifyUserOfEvent {
 		    (NotificationManager) _context.getSystemService(Context.NOTIFICATION_SERVICE);
 		// mId allows you to update the notification later on.
 		mNotificationManager.notify(notificationId, mBuilder.build());
+		event.notificationID = notificationId;
 		++notificationId;
 	}
 }

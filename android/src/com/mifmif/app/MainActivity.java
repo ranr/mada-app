@@ -16,34 +16,44 @@ import android.widget.TabHost.TabSpec;
 
 public class MainActivity extends TabActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
 
-        TabHost tabHost = getTabHost();
-        
-        TabSpec registerTab = tabHost.newTabSpec("Register");
-        registerTab.setIndicator( "הרשם" );
-        Intent photosIntent = new Intent(this, RegisterActivity.class);
-        registerTab.setContent(photosIntent);
-  
-        TabSpec statusTab = tabHost.newTabSpec("Status");
-        statusTab.setIndicator( "סטטוס" );
-        Intent statusIntent = new Intent(this, StatusActivity.class);
-        statusTab.setContent(statusIntent);
-  
-        tabHost.addTab(registerTab);
-        tabHost.addTab(statusTab);
-        
-        PingTask.start( this );
-    }
+		TabHost tabHost = getTabHost();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
+		TabSpec registerTab = tabHost.newTabSpec("Register");
+		registerTab.setIndicator( "הרשם" );
+		Intent photosIntent = new Intent(this, RegisterActivity.class);
+		registerTab.setContent(photosIntent);
+
+		TabSpec statusTab = tabHost.newTabSpec("Status");
+		statusTab.setIndicator( "סטטוס" );
+		Intent statusIntent = new Intent(this, StatusActivity.class);
+		statusTab.setContent(statusIntent);
+
+		tabHost.addTab(registerTab);
+		tabHost.addTab(statusTab);
+
+		if( hasPhoneNumber() )
+			tabHost.setCurrentTab( 1 );
+
+		PingTask.start( this );
+	}
+
+	private boolean hasPhoneNumber()
+	{
+		SharedPreferences settings = getSharedPreferences("userData", 0);
+		String phoneNumber = settings.getString( "phoneNumber", "" );
+		return phoneNumber != "";
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.activity_main, menu);
+		return true;
+	}
 
 }

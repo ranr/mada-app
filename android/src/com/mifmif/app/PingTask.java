@@ -1,5 +1,11 @@
 package com.mifmif.app;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.StringBufferInputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +14,8 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -49,8 +57,8 @@ public class PingTask extends AsyncTask< Object, Integer, Integer > {
 				continue;
 			
 			JSONObject rendered = renderJSON( settings );
-			//HttpResponse response = pingServer(httpClient, rendered);
-			String response = fakeResponse();
+			String response = pingServer(httpClient, rendered);
+//			String response = fakeResponse();
 			if ( response == null )
 				continue;
 			JSONObject json = parseJSON( response );
@@ -88,17 +96,26 @@ public class PingTask extends AsyncTask< Object, Integer, Integer > {
 	
 	private String pingServer(HttpClient httpClient, JSONObject rendered) {
 		try {
-			HttpPost request = new HttpPost("http://TODO/updateLocation");
-			ArrayList<NameValuePair> pairs = new ArrayList<NameValuePair>(1);
-			pairs.add(new BasicNameValuePair("data.json", rendered.toString()));
-			request.setEntity(new UrlEncodedFormEntity(pairs));
-			//request.addHeader("content-type", "application/x-www-form-urlencoded");
-//			return httpClient.execute(request);
-			return null;
+			HttpPost request = new HttpPost("http://192.168.1.82:8000/nearby_events");
+			request.setHeader("Content-type", "application/json");
+			StringEntity sEntity = new StringEntity(rendered.toString(), "UTF-8");
+			request.setEntity(sEntity);
+			HttpResponse response = httpClient.execute(request);
+			return httpResponseToString( response );
 		}catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return null;
+	}
+	
+	private String httpResponseToString( HttpResponse response ) throws Exception
+	{
+		BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
+		StringBuilder builder = new StringBuilder();
+		for (String line = null; (line = reader.readLine()) != null;) {
+		    builder.append(line).append("\n");
+		}
+		return builder.toString();
 	}
 	
 	private String fakeResponse()
@@ -142,7 +159,7 @@ public class PingTask extends AsyncTask< Object, Integer, Integer > {
 		try {
 			Location location = gpsTracker.getLocation();
 			object.put("rank", settings.getString( "rank", null ) );
-			object.put("phoneNumber", settings.getString( "phoneNumber", null ) );
+			object.put("phone_number", settings.getString( "phoneNumber", null ) );
 			object.put("name", settings.getString( "name", null ) );
 			object.put("latitude", location.getLatitude() );
 			object.put("longitude", location.getLongitude() );

@@ -44,7 +44,7 @@ public class RegisterActivity extends Activity {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString( "name", name );
         editor.putString( "phoneNumber", phoneNumber );
-        editor.putString( "rankText", rank );
+        editor.putString( "rank", rank );
         editor.putInt( "rankSelectionIndex", spinner.getSelectedItemPosition() );
         editor.commit();
         
