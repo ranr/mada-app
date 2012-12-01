@@ -10,41 +10,53 @@
     <script src="/static/js/event.js"></script>
     <script src="/static/js/base.js"></script>
     <style type="text/css">
-        #map_canvas { width: 500px; height: 500px; float: right }
-        #dashboard { width: 50%; float: left }
-        #newEvent { float: left; }
+        #map_canvas { margin-left: 20px; width: 70%; height: 700px; float: left }
+        #dashboard { width: 25%; float: right }
+        #newEvent { float: right; }
         #currentEvent { display: none }
+        #inputLatitude {display: none }
+        #inputLongitude {display: none }
+        body {direction: rtl}
     </style>
     <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa8eBlWw5aaOHDIoXSfk-zNjdsMNYlJAc&sensor=false&libraries=places">
     </script>
   </head>
   <body>
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a href="#">Home</a>
+      </li>
+      <li><a href="#">About<a></li>
+      <li><a href="#">...</a></li>
+    </ul>
+    <div id="map_canvas"></div>
     <div id="dashboard">
-    <div id="currentEvent" class="hero-unit">
-      <h3>Selected event</h3>
-      <div class="row">
-        Coordinates: <span class="latitude"></span>/<span class="longitude"></span>
-      </div>
-      <button id="removeEventButton" class="btn">Remove</button>
-    </div>
-    <div id="newEvent" class="hero-unit">
-        <h3>Create a new event</h3>
-        <div class="form-horizontal">
-            <div class="controls">
-              <input type="text" id="searchTextField" placeholder="location">
-              <input type="text" id="inputLatitude" placeholder="latitude">
-              <input type="text" id="inputLongitude" placeholder="longitude">
+        <div id="newEvent" class="hero-unit">
+            <h3>הוסף ארוע</h3>
+            <div class="form-inline">
+                <div class="controls">
+                  <input type="text" id="searchTextField" placeholder="מיקום">
+                  <input type="text" id="inputLatitude" placeholder="latitude">
+                  <input type="text" id="inputLongitude" placeholder="longitude">
+                  <textarea rows="3" cols="20" id="eventInformation" placeholder="תיאור"> </textarea>
+                </div>
             </div>
-          </div>
-          <div class="control-group">
-            <div class="controls">
-              <button id="newEventButton" class="btn">Create</button>
+              <div class="control-group">
+                <div class="controls">
+                  <button id="newEventButton" class="btn">צור</button>
+                </div>
+              </div>
             </div>
+        </div>
+
+        <div id="currentEvent" class="hero-unit">
+          <h3>Selected event</h3>
+          <div class="row">
+            Coordinates: <span class="latitude"></span>/<span class="longitude"></span>
           </div>
+          <button id="removeEventButton" class="btn">Remove</button>
         </div>
     </div>
-    </div>
-    <div id="map_canvas"></div>
   </body>
 </html>

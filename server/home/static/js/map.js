@@ -5,9 +5,11 @@ function Map()
 
     this._initalize = function()
     {
+        var TEL_AVIV_LAT = 32.066;
+        var TEL_AVIV_LNG = 34.777;
         var mapOptions = {
-              center: new google.maps.LatLng(31.7833,35.2167),
-              zoom: 8,
+              center: new google.maps.LatLng(TEL_AVIV_LAT,TEL_AVIV_LNG),
+              zoom: 13,
               mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         this._map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
@@ -55,6 +57,7 @@ function Map()
             position: new google.maps.LatLng( latitude, longitude ),
             map: this._map,
             title:title,
+            animation: google.maps.Animation.DROP
         });
         return marker;
     }

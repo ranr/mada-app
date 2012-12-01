@@ -21,8 +21,15 @@ data = urllib.urlopen( "http://localhost:8000/new_event/32.43243/35.432").read()
 assert (data == "")
 
 # Check that rescuer exists now
-print "rescuer"
-print(server.get_rescuer_by_phone(rescuer["phone_number"]))
+returned_rescuer=server.get_rescuer_by_phone(rescuer["phone_number"])
+assert(returned_rescuer)
+assert(returned_rescuer["phone_number"]==rescuer["phone_number"])
+common_keys=[key for key in rescuer.keys() if key in returned_rescuer.keys()]
+expected_keys=sorted(['phone_number', 'latitude', 'longitude', 'rank'])
+
+assert(expected_keys==sorted(common_keys) )
+for key in common_keys:
+    assert(returned_rescuer[key]==rescuer[key]) 
 
 # Now expect to get the event back
 data = urllib.urlopen( "http://localhost:8000/nearby_events", json.dumps(rescuer) ).read()

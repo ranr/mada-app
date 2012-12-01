@@ -2,16 +2,16 @@
     {
         "model": "home.Event",
         "pk": 1,
-        "fields": { "lat": 32.088, "lon": 34.77, "timestamp": "2012-12-01" }
+        "fields": { "latitude": 32.088, "longitude": 34.77, "timestamp": "2012-12-01" }
     },
     {
         "model": "home.Event",
         "pk": 2,
-        "fields": { "lat": 32.1, "lon": 34.1, "timestamp": "2012-12-01" }
+        "fields": { "latitude": 32.1, "longitude": 34.1, "timestamp": "2012-12-01" }
     },
     {
         "model": "home.Event",
         "pk": 3,
-        "fields": { "lat": 32.2, "lon": 34.2, "timestamp": "2012-12-01" }
+        "fields": { "latitude": 32.2, "longitude": 34.2, "timestamp": "2012-12-01" }
     }
 ]   
