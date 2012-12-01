@@ -4,18 +4,47 @@
     <title>MifMif</title>
     <!-- Bootstrap -->
 	<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-  </head>
-  <body>
-	<div class="hero-unit">
-	  <h1>Welcome to MifMif</h1>
-	  <p>Report the hazard today!</p>
-	  <p>
-		<a class="btn btn-primary btn-large">
-		  Learn more
-		</a>
-	  </p>
-	</div>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/map.js"></script>
+    <script src="/static/js/event.js"></script>
+    <script src="/static/js/base.js"></script>
+    <style type="text/css">
+        #map_canvas { width: 500px; height: 500px; float: right }
+        #dashboard { width: 50%; float: left }
+        #newEvent { float: left; }
+        #currentEvent { display: none }
+    </style>
+    <script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa8eBlWw5aaOHDIoXSfk-zNjdsMNYlJAc&sensor=false&libraries=places">
+    </script>
+  </head>
+  <body>
+    <div id="dashboard">
+    <div id="currentEvent" class="hero-unit">
+      <h3>Selected event</h3>
+      <div class="row">
+        Coordinates: <span class="latitude"></span>/<span class="longitude"></span>
+      </div>
+      <button id="removeEventButton" class="btn">Remove</button>
+    </div>
+    <div id="newEvent" class="hero-unit">
+        <h3>Create a new event</h3>
+        <div class="form-horizontal">
+            <div class="controls">
+              <input type="text" id="searchTextField" placeholder="location">
+              <input type="text" id="inputLatitude" placeholder="latitude">
+              <input type="text" id="inputLongitude" placeholder="longitude">
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button id="newEventButton" class="btn">Create</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+    <div id="map_canvas"></div>
   </body>
 </html>
