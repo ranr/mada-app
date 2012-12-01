@@ -1,6 +1,7 @@
-function newEventCreated()
+function newEventCreated(json)
 {
-    map.addEvent( parseFloat( $("#inputLatitude").val() ), parseFloat( $("#inputLongitude").val() ) );
+    var event_id = JSON.parse( json )[ "id" ];
+    map.addEvent( event_id, parseFloat( $("#inputLatitude").val() ), parseFloat( $("#inputLongitude").val() ) );
 }
 
 function newEvent()

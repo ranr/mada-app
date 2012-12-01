@@ -35,7 +35,7 @@ def new_event(request, lat, lon):
     lon=float(lon)
     event = Event(latitude=lat, longitude=lon)
     event.save()
-    return HttpResponse("")
+    return HttpResponse(json.dumps(build_event_dict(event)))
 
 @csrf_exempt
 def all_events(request):
@@ -96,7 +96,9 @@ def build_event_dict(event):
     event.information = "HEART ATTACK"
     event.address     = "Diezengoff 99"
     data = serializers.serialize('json', [event])
-    return json.loads(data)[0]['fields']
+    result=json.loads(data)[0]['fields']
+    result["id"]=event.id
+    return result
 
     
 def build_rescuer_dict(rescuer):

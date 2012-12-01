@@ -5,11 +5,9 @@ function Map()
 
     this._initalize = function()
     {
-        var TEL_AVIV_LAT = 32.066;
-        var TEL_AVIV_LNG = 34.777;
         var mapOptions = {
-              center: new google.maps.LatLng(TEL_AVIV_LAT,TEL_AVIV_LNG),
-              zoom: 13,
+              center: new google.maps.LatLng(31.7833,35.2167),
+              zoom: 8,
               mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         this._map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
@@ -28,9 +26,9 @@ function Map()
         $("#inputLongitude").val( place.geometry.location.lng() );
     }
 
-    this.addEvent = function( latitude, longitude )
+    this.addEvent = function( id, latitude, longitude )
     {
-        this._events.push( new Event( this, latitude, longitude ) );
+        this._events.push( new Event( this, id, latitude, longitude ) );
     }
 
     this.removeEvent = function( latitude, longitude )
@@ -57,7 +55,6 @@ function Map()
             position: new google.maps.LatLng( latitude, longitude ),
             map: this._map,
             title:title,
-            animation: google.maps.Animation.DROP
         });
         return marker;
     }
@@ -66,7 +63,7 @@ function Map()
     {
         var events = JSON.parse( json )[ "events" ];
         for ( i in events )
-            this.addEvent( events[ i ][ 'latitude' ], events[ i ][ 'longitude' ] );
+            this.addEvent( id, events[ i ][ 'latitude' ], events[ i ][ 'longitude' ] );
     }
 
     this._updateAllEvents = function()

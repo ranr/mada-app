@@ -16,7 +16,8 @@ class Server:
 
 def create_event(lat, lon):
     data = urllib.urlopen( "http://localhost:8000/new_event/%f/%f" % (lat, lon)).read()
-    assert (data == "")
+    result = json.loads( data )
+    return result["id"]
 
 def all_events():
     data = urllib.urlopen( "http://localhost:8000/all_events").read()
