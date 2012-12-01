@@ -23,4 +23,5 @@ $(document).ready( function() {
     $("#removeEventButton").click( removeEvent ); 
     $("#newEventButton").click( newEvent ); 
     map = new Map();
+    rescuers = new Rescuers( map );
 });
