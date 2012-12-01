@@ -36,7 +36,7 @@ def new_event(request, lat, lon):
     lon=float(lon)
     event = Event(latitude=lat, longitude=lon)
     event.save()
-    return HttpResponse("")
+    return HttpResponse(json.dumps(build_event_dict(event)))
 
 @csrf_exempt
 def all_events(request):
@@ -44,6 +44,13 @@ def all_events(request):
     all_events=Event.objects.all()
     response_json=generate_events_response(all_events)
     return HttpResponse(response_json)
+
+@csrf_exempt
+def remove_event(request, id):
+    logger.info("Got delete request id=%s" % id)
+    events=Event.objects.filter(id=id)
+    events.delete()
+    return HttpResponse(json.dumps({}))
 
 @csrf_exempt
 def get_rescuer(request, phone_number):
@@ -79,9 +86,7 @@ def update_rescuer(params):
        
 
 def get_rescuers_by_phone(phone_number):
-    # TODO: make this filter query work
-    #rescuers=Rescuer.objects.filter(phone_number==phone_number)
-    rescuers=[r for r in Rescuer.objects.all() if r.phone_number == phone_number]
+    rescuers=list(Rescuer.objects.filter(phone_number=phone_number))
     return rescuers
 
 def generate_events_response(events):
@@ -97,7 +102,9 @@ def build_event_dict(event):
     event.information = "HEART ATTACK"
     event.address     = "Diezengoff 99"
     data = serializers.serialize('json', [event])
-    return json.loads(data)[0]['fields']
+    result=json.loads(data)[0]['fields']
+    result["id"]=event.id
+    return result
 
     
 def build_rescuer_dict(rescuer):

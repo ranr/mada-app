@@ -8,19 +8,20 @@
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/js/map.js"></script>
     <script src="/static/js/event.js"></script>
+    <script src="/static/js/rescuer.js"></script>
     <script src="/static/js/rescuers.js"></script>
     <script src="/static/js/base.js"></script>
     <style type="text/css">
         #map_canvas { margin-left: 20px; width: 70%; height: 700px; float: left }
         #dashboard { width: 25%; float: right }
         #newEvent { float: right; }
-        #currentEvent { display: none }
+        #currentEvent { display: none; float: right; }
         #inputLatitude {display: none }
         #inputLongitude {display: none }
         body {direction: rtl}
     </style>
     <script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa8eBlWw5aaOHDIoXSfk-zNjdsMNYlJAc&sensor=false&libraries=places">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAa8eBlWw5aaOHDIoXSfk-zNjdsMNYlJAc&sensor=false&libraries=places&v=3.exp">
     </script>
   </head>
   <body>
@@ -52,11 +53,11 @@
         </div>
 
         <div id="currentEvent" class="hero-unit">
-          <h3>Selected event</h3>
+          <h3>אירוע נוכחי</h3>
           <div class="row">
-            Coordinates: <span class="latitude"></span>/<span class="longitude"></span>
+            קואורדינטות: <div class="latitude"></div><div class="longitude"></div>
           </div>
-          <button id="removeEventButton" class="btn">Remove</button>
+          <button id="removeEventButton" class="btn">האירוע טופל</button>
         </div>
     </div>
   </body>
