@@ -8,8 +8,12 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'home.views.index'),
 
-    #categories
-    url(r'^nearby_events/([^/]+)/(\d+)/(\d+)$', 'home.views.nearby_events')
+    #nearby_events
+    url(r'^nearby_events/([^/]+)/(\d+)/(\d+)$', 'home.views.nearby_events'),
+
+    #new_event
+    url(r'^new_event/(\d+)/(\d+)$', 'home.views.new_event')
+
     # url(r'^mifmif/', include('mifmif.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -17,4 +21,4 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-)
+    )

@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Event(models.Model):
-    lat = models.IntegerField()
-    lon = models.IntegerField()
-    timestamp = models.TimeField(auto_now=True)
+    lat = models.FloatField()
+    lon = models.FloatField()
+    timestamp = models.DateTimeField(auto_now=True)
+
