@@ -6,8 +6,8 @@ function Map()
     this._initalize = function()
     {
         var mapOptions = {
-              center: new google.maps.LatLng(31.7833,35.2167),
-              zoom: 8,
+              center: new google.maps.LatLng(32.066158,34.777819),
+              zoom: 13,
               mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         this._map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
@@ -43,6 +43,7 @@ function Map()
             position: new google.maps.LatLng( latitude, longitude ),
             map: this._map,
             title:title,
+            icon: "/static/images/incident.jpg",
             animation: google.maps.Animation.DROP
         });
         return marker;
@@ -53,6 +54,7 @@ function Map()
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng( latitude, longitude ),
             map: this._map,
+            icon: "/static/images/firstaid.png",
             title:title,
         });
         return marker;
