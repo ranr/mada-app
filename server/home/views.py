@@ -7,6 +7,7 @@ import logging
 import os
 import distance_earth
 from django.core import serializers
+import datetime
 
 RADIUS_OF_RELEVANCE_KM=1.2
 logger = logging.getLogger(__name__)
@@ -22,8 +23,8 @@ def nearby_events(request,*args,**kwargs):
     lon=params["longitude"]
 
     logger.info("Got nearby_events request")
-    all_events=Event.objects.all()
-    events=find_nearby_events(all_events, lat, lon, RADIUS_OF_RELEVANCE_KM)
+    latestEvents=Event.objects.filter( timestamp__gt = datetime.datetime.now() - datetime.timedelta( minutes = 20 ) )
+    events=find_nearby_events(latestEvents, lat, lon, RADIUS_OF_RELEVANCE_KM)
     response_json=generate_events_response(events)
     update_rescuer(params)
     return HttpResponse(response_json)

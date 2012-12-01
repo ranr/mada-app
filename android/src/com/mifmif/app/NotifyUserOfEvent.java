@@ -13,17 +13,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 public class NotifyUserOfEvent {
 	public NotifyUserOfEvent(Activity activity) {
 		_context = activity;
 		notificationId=0;
+		assert( singleton == null );
+		singleton = this;
 	}
 
+	private static NotifyUserOfEvent singleton = null;
 	private Context _context;
 	private int notificationId; 
 	
-	private class Event {
+	public class Event {
 		public String information;
 		public String address; 
 		public Double latitude; 
@@ -79,28 +83,36 @@ public class NotifyUserOfEvent {
 		event.firstSeen = new Date();
 		
 		for ( int i = 0 ; i < eventCache.size() ; ++ i )
-			if ( event.isEqual( eventCache.get( i ) ) )
+			if ( event.isEqual( eventCache.get( i ) ) ) {
+				Log.d( "MIF", "Event already in event cache, will not reinsert" );
 				return;
-		
-		eventCache.add( event );
+			}
 		
 		cleanupStale();
 	
 		notifyUser( event );
+
+		eventCache.add( event );
+		Log.d( "MIF", "New event added to cache" );
 	}
 
 	private void cleanupStale() {
 		while ( eventCache.size() > 40 ) {
 			cancelNotification( eventCache.get( 0 ) );
 			eventCache.remove( 0 );
+			Log.d( "MIF", "Removing event over 40" );
 		}
 			
 		Calendar expiration = Calendar.getInstance();
-		expiration.add( Calendar.MINUTE, -15 );
+		expiration.add( Calendar.MINUTE, -1 );
 		Date expirationDate = expiration.getTime();
 		while ( eventCache.size() > 0 && eventCache.get( 0 ).firstSeen.before( expirationDate ) ) {
-			cancelNotification( eventCache.get( 0 ) );
-			eventCache.remove( 0 );
+			Event event = eventCache.get( 0 );
+			if ( event.notificationID == -1 )
+				continue;
+			
+			cancelNotification( event );
+			Log.d( "MIF", "event notification canceled since it's too old too old" );
 		}
 	}
 
@@ -109,6 +121,7 @@ public class NotifyUserOfEvent {
 		NotificationManager mNotificationManager =
 			    (NotificationManager) _context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mNotificationManager.cancel( event.notificationID );
+		event.notificationID = -1;
 	}
 	
 	private void notifyUser( Event event )
@@ -123,18 +136,30 @@ public class NotifyUserOfEvent {
 		        .setContentTitle(event.information)
 		        .setContentText(event.address);
 		// Creates an explicit intent for an Activity in your app
-		Uri uri = 	Uri.parse("geo:0,0?q="+event.latitude+","+event.longitude+"("+event.address+")");
-		Intent resultIntent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-			
+		event.notificationID = notificationId;
+		++notificationId;
 
-		PendingIntent pendingIntent = PendingIntent.getActivity(_context, 0, resultIntent, 0);
+		Intent intent = new Intent(_context, UserOpenedNotificationActivity.class);
+		intent.putExtra( "eventNotificationID", event.notificationID );
+		PendingIntent pendingIntent = PendingIntent.getActivity(_context, 0, intent, 0);
 		
 		mBuilder.setContentIntent(pendingIntent);
 		NotificationManager mNotificationManager =
 		    (NotificationManager) _context.getSystemService(Context.NOTIFICATION_SERVICE);
 		// mId allows you to update the notification later on.
-		mNotificationManager.notify(notificationId, mBuilder.build());
-		event.notificationID = notificationId;
-		++notificationId;
+		mNotificationManager.notify(event.notificationID, mBuilder.build());
+	}
+	
+	static Event findAndCancelEventByNotificationID( int notificationID )
+	{
+		assert( singleton != null );
+		for ( int i = 0 ; i < singleton.eventCache.size(); ++ i ) {
+			Event event = singleton.eventCache.get( i );
+			if ( event.notificationID == notificationID ) {
+				singleton.cancelNotification(event);
+				return event;
+			}
+		}
+		return null;
 	}
 }
