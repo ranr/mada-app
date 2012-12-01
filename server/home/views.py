@@ -85,9 +85,7 @@ def update_rescuer(params):
        
 
 def get_rescuers_by_phone(phone_number):
-    # TODO: make this filter query work
-    #rescuers=Rescuer.objects.filter(phone_number==phone_number)
-    rescuers=[r for r in Rescuer.objects.all() if r.phone_number == phone_number]
+    rescuers=list(Rescuer.objects.filter(phone_number=phone_number))
     return rescuers
 
 def generate_events_response(events):
