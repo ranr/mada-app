@@ -15,7 +15,7 @@
         #map_canvas { margin-left: 20px; width: 70%; height: 700px; float: left }
         #dashboard { width: 25%; float: right }
         #newEvent { float: right; }
-        #currentEvent { display: none }
+        #currentEvent { display: none; float: right; }
         #inputLatitude {display: none }
         #inputLongitude {display: none }
         body {direction: rtl}
@@ -53,11 +53,11 @@
         </div>
 
         <div id="currentEvent" class="hero-unit">
-          <h3>Selected event</h3>
+          <h3>אירוע נוכחי</h3>
           <div class="row">
-            Coordinates: <span class="latitude"></span>/<span class="longitude"></span>
+            קואורדינטות: <div class="latitude"></div><div class="longitude"></div>
           </div>
-          <button id="removeEventButton" class="btn">Remove</button>
+          <button id="removeEventButton" class="btn">האירוע טופל</button>
         </div>
     </div>
   </body>
