@@ -18,7 +18,10 @@ urlpatterns = patterns('',
     url(r'^all_events$', 'home.views.all_events'),
 
     #get_rescuer
-    url(r'^get_rescuer/([^/]+)$', 'home.views.get_rescuer')    
+    url(r'^get_rescuer/([^/]+)$', 'home.views.get_rescuer'),  
+
+    #all_rescuers
+    url(r'^all_rescuers$', 'home.views.all_rescuers'),  
     # url(r'^mifmif/', include('mifmif.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

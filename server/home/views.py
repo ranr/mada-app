@@ -55,6 +55,13 @@ def get_rescuer(request, phone_number):
     else: 
         return HttpResponse(json.dumps({}))
 
+@csrf_exempt
+def all_rescuers(request):
+    logger.info("all_rescuers called!")
+    rescuers=Rescuer.objects.all()
+    data = serializers.serialize('json', rescuers)
+    return HttpResponse(json.dumps([x["fields"] for x in json.loads(data)]))
+
 def update_rescuer(params):
     rescuers=get_rescuers_by_phone(params["phone_number"])
     
