@@ -19,6 +19,7 @@ Amit Moscovich
 Ran Roth
 Hadas Vogel 
  
-
- 
+License
+-------
+Free for any use. No liability - at your own risk.
  
