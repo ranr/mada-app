@@ -11,13 +11,7 @@ Current version is alpha version, demonstrated at RHOK Israel of 2012.
 
 Participants:
 
-Roi Addadi
-Omer Enbar 
-Adam Matan
-Shlomo Matichin 
-Amit Moscovich 
-Ran Roth
-Hadas Vogel 
+Roi Addadi,Omer Enbar,Adam Matan,Shlomo Matichin,Amit Moscovich,Ran Roth,Hadas Vogel 
  
 License
 -------
